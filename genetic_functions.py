@@ -32,6 +32,7 @@ def substring_swap(sol1, sol2):
     dimension = len(sol1)
     index = random.randint(0, dimension - 1)
     
+    print(f"Index of swapping: {index}")
     offspring1 = sol1[0:index] + sol2[index:] 
     offspring2 = sol2[0:index] + sol1[index:] 
     

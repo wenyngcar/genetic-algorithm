@@ -7,7 +7,7 @@ from functions import *
 n = 50 # No. of solutions in the population.
 added = 2000 # Arbitrary no. added to fitness/evaluation.
 mutation_rate = 0.80
-generations = 500 #N No. of generations/loop
+generations = 100 #N No. of generations/loop
 
 """ POPULATION GENERATION """
 popn = generate_population(n)
