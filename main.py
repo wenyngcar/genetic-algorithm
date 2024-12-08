@@ -4,10 +4,10 @@ import numpy as np
 from genetic_functions import *
 from functions import *
 
-n = 16 # No. of solutions in the population.
+n = 50 # No. of solutions in the population.
 added = 2000 # Arbitrary no. added to fitness/evaluation.
-mutation_rate = 0.75
-generations = 30 #N No. of generations/loop
+mutation_rate = 0.80
+generations = 500 #N No. of generations/loop
 
 """ POPULATION GENERATION """
 popn = generate_population(n)
@@ -31,6 +31,8 @@ super_best_fitness = max(fitness_value)
 print("\nBest Solution: ", super_best_sol)
 print("\nBest Solution: ", super_best_fitness)
 all_fitness.append(super_best_fitness)
+super_best_time = []
+super_best_time_generation = [] 
 
 for j in range(generations):
     print(f"\nGeneration : {j}")
@@ -112,17 +114,21 @@ for j in range(generations):
     if best_fit_current_gen > super_best_fitness: 
         super_best_fitness = best_fit_current_gen
         super_best_sol = best_sol_current_gen
-        super_best_time = time.time()
-        super_best_time_generation = j
-        print(f"Time & Generation the best was found: {super_best_time} seconds at Gen {j}")
+        super_best_time_generation.append(j) 
+        super_best_time_current = time.time()
+        super_best_time.append(super_best_time_current)
+        print(f"Time & Generation the best was found: {super_best_time_current} seconds at Gen {j}")
 
     print(f"\nBest Solution: {super_best_sol}")
     print(f"Best Fitness: {super_best_fitness}")
 
     all_fitness.append(super_best_fitness)
 
-print(f"\nTime & Generation the best was found: {super_best_time} seconds at Gen {super_best_time_generation}")
-print(f"All fitness: {all_fitness}")
+# Print all the Time and Generation where the best was found.
+for i in range(len(super_best_time_generation)):
+    print(f"\nTime & Generation the best was found: {super_best_time[i]} seconds at Gen {super_best_time_generation[i]}")
+
+print(f"\nAll fitness: {all_fitness}")
 plt.plot(all_fitness)
 plt.ylabel("Evaluation")
 plt.xlabel("Generation No.")
