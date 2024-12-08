@@ -34,7 +34,7 @@ def substring_swap(sol1, sol2):
     
     offspring1 = sol1[0:index] + sol2[index:] 
     offspring2 = sol2[0:index] + sol1[index:] 
-    print(f"index: {index}")
+    
     return offspring1, offspring2 
     
 def mutation(sol):

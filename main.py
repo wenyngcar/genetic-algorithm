@@ -38,14 +38,14 @@ for j in range(generations):
 
     # Convert averaging into strength percentages.
     strength = [x/sum(ave) for x in ave]
-    print("\nThe Strength")
-    print(strength)
+    # print("\nThe Strength")
+    # print(strength)
 
     wheel = generate_wheel(strength)
-    print("\nThe Wheel")
-    print(wheel)
+    # print("\nThe Wheel")
+    # print(wheel)
 
-    # Recombination
+    # Recombination using single-point crossover. 
     new_population = []
     for i in range(int(n/2)):
         parent1 = select_parent(random.random(), wheel)
@@ -67,9 +67,9 @@ for j in range(generations):
         new_population.append(child1)
         new_population.append(child2)
 
-    print("New Solutions")
-    for i in range(n):
-        print(new_population[i])
+    # print("New Solutions")
+    # for i in range(n):
+    #     print(new_population[i])
 
     # CALCULATE FITNESS 
     fitness_value = []
@@ -88,9 +88,9 @@ for j in range(generations):
     # New population becomes current population.
     popn = new_population
 
-    print("Mutated Solutions")
-    for i in range(n):
-        print(new_population[i])
+    # print("Mutated Solutions")
+    # for i in range(n):
+    #     print(new_population[i])
 
     # CALCULATE FITNESS
     fitness_value = []
@@ -112,7 +112,7 @@ for j in range(generations):
         super_best_sol = best_sol_current_gen
 
     print(f"\nBest Solution: {super_best_sol}")
-    print(f"Best Fitness {super_best_fitness}")
+    print(f"Best Fitness: {super_best_fitness}")
 
     all_fitness.append(super_best_fitness)
 
