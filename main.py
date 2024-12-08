@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+import time
 import numpy as np
 from genetic_functions import *
 from functions import *
@@ -76,7 +78,7 @@ for j in range(generations):
     for i in range(n):
         fit = evaluation(new_population[i])
         fitness_value.append(fit)
-    print("\nThe Evaluation")
+    print("\nNew Solution Fitness Evaluation")
     print(fitness_value)
 
     # MUTATION
@@ -98,7 +100,7 @@ for j in range(generations):
         fit = evaluation(new_population[i])
         fitness_value.append(fit)
         
-    print("\nEvaluation")
+    print("\nMutated Solution Fitness Evaluation")
     print(fitness_value)
 
     # DETERMINE THE BEST IN THE GENERATIONk
@@ -110,10 +112,18 @@ for j in range(generations):
     if best_fit_current_gen > super_best_fitness: 
         super_best_fitness = best_fit_current_gen
         super_best_sol = best_sol_current_gen
+        super_best_time = time.time()
+        super_best_time_generation = j
+        print(f"Time & Generation the best was found: {super_best_time} seconds at Gen {j}")
 
     print(f"\nBest Solution: {super_best_sol}")
     print(f"Best Fitness: {super_best_fitness}")
 
     all_fitness.append(super_best_fitness)
 
-print(all_fitness)
+print(f"\nTime & Generation the best was found: {super_best_time} seconds at Gen {super_best_time_generation}")
+print(f"All fitness: {all_fitness}")
+plt.plot(all_fitness)
+plt.ylabel("Evaluation")
+plt.xlabel("Generation No.")
+plt.savefig("plot.png")
