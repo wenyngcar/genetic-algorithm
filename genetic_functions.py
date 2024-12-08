@@ -27,26 +27,15 @@ def averaging(added, fitness):
 
     return averaging
 
+# Use for single-point crossover.
 def substring_swap(sol1, sol2):
     dimension = len(sol1)
-    index1 = random.randint(0, dimension - 1)
-    index2 = random.randint(0, dimension - 1)
-
-    # Positions should not be the same.
-    while index1 ==  index2:
-        index1 = random.randint(0, dimension - 1)
-
-    if index1 < index2:
-        left = index1
-        right = index2
-    else:
-        left = index2
-        right = index1
+    index = random.randint(0, dimension - 1)
     
-    baby1 = sol1[0:left] + sol2[left:right + 1] + sol1[right+1:dimension]
-    baby2 = sol2[0:left] + sol1[left:right + 1] + sol2[right+1:dimension]
-
-    return baby1, baby2
+    offspring1 = sol1[0:index] + sol2[index:] 
+    offspring2 = sol2[0:index] + sol1[index:] 
+    print(f"index: {index}")
+    return offspring1, offspring2 
     
 def mutation(sol):
     dimension = len(sol)
@@ -58,7 +47,6 @@ def mutation(sol):
     else: new_sol[index1] = '1'
     
     return new_sol
-
 
 def select_parent(random_number, wheel):
     dimension = len(wheel)
