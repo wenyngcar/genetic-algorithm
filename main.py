@@ -1,13 +1,104 @@
 import matplotlib.pyplot as plt
 import time
 import numpy as np
-from genetic_functions import *
-from functions import *
+import random
 
 n = 50 # No. of solutions in the population.
 added = 2000 # Arbitrary no. added to fitness/evaluation.
 mutation_rate = 0.80
 generations = 100 #N No. of generations/loop
+
+""" ****************** GENETIC FUNCTIONS *********************** """
+def fitness(w, x, y, z):
+    return w**3 + x**2 - y**2 - z**2 + (2 * y * z) - (3 * w * x) + (w * z) - (x * y) + 2
+
+def bin_to_dec(list_bin):
+    decimal = 0
+    for i in range(len(list_bin)):
+        digit = list_bin.pop()
+        if digit == "1":
+            decimal = decimal + pow(2, 1)
+    
+    return decimal
+    
+def evaluation(solution):
+    w = bin_to_dec(solution[0:4])
+    x = bin_to_dec(solution[4:8])
+    y = bin_to_dec(solution[8:12])
+    z = bin_to_dec(solution[12:16])
+    fit = fitness(w, x, y, z)
+    return fit
+    
+def averaging(added, fitness):
+    increased = [x + added for x in fitness]
+    average = sum(increased)/len(increased)
+    averaging = [x/average for x in increased]
+
+    return averaging
+
+# Use for single-point crossover.
+def substring_swap(sol1, sol2):
+    dimension = len(sol1)
+    index = random.randint(0, dimension - 1)
+    
+    print(f"Index of swapping: {index}")
+    offspring1 = sol1[0:index] + sol2[index:] 
+    offspring2 = sol2[0:index] + sol1[index:] 
+    
+    return offspring1, offspring2 
+    
+def mutation(sol):
+    dimension = len(sol)
+    index1 = random.randint(0, dimension - 1)
+
+    new_sol = sol
+    
+    if new_sol[index1] == '1': new_sol[index1] = '0'
+    else: new_sol[index1] = '1'
+    
+    return new_sol
+
+def select_parent(random_number, wheel):
+    dimension = len(wheel)
+    for i in range(dimension):
+        if random_number > wheel[i][0]:
+            if random_number < wheel[i][1]:
+                return i + 1
+            else: continue
+""" *********************************************************** """
+
+""" ******************* GENERATING FUNCTION ****************** """
+def generate_population(n):
+    population = []
+    for _ in range(n):  # Use underscore (_) for a variable that's not used
+        # Generate binary strings for w, x, y, z
+        solution = []
+        for _ in range(4):  # Loop for generating 16 binary values directly
+            solution.extend(['1' if random.random() < 0.5 else '0' for _ in range(4)])
+        population.append(solution)
+    return population
+        
+def generate_wheel(strength: list) -> list:
+    wheel = []
+    pair = []
+    dimension = len(strength)
+    start = 0.0
+    end = strength[0]
+    pair.append(start)
+    pair.append(end)
+    wheel.append(pair)
+
+    for num in range(dimension):
+        pair = []
+        if num != 0:
+            start = end
+            end = start + strength[num]
+            pair.append(start)
+            pair.append(end)
+            wheel.append(pair)
+    
+    return wheel
+""" *********************************************************** """
 
 """ POPULATION GENERATION """
 popn = generate_population(n)
@@ -154,4 +245,4 @@ print(f"\nAll fitness: {all_fitness}")
 plt.plot(all_fitness)
 plt.ylabel("Evaluation")
 plt.xlabel("Generation No.")
-plt.savefig("plot.png")
+plt.show()
