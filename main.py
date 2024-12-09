@@ -4,7 +4,7 @@ import numpy as np
 from genetic_functions import *
 from functions import *
 
-n = 100 # No. of solutions in the population.
+n = 50 # No. of solutions in the population.
 added = 2000 # Arbitrary no. added to fitness/evaluation.
 mutation_rate = 0.80
 generations = 100 #N No. of generations/loop
@@ -23,7 +23,7 @@ for i in range(n):
 print("\nThe Evaluation")
 print(fitness_value)
 
-""" Keep track of best """
+""" KEEP TRACK OF BEST """
 all_fitness = []
 index_best = np.argmax(fitness_value)
 super_best_sol = popn[index_best]
@@ -33,6 +33,8 @@ print("\nBest Solution: ", super_best_fitness)
 all_fitness.append(super_best_fitness)
 super_best_time = []
 super_best_time_generation = [] 
+
+# Track what time the iteration started.
 start_seconds = time.time()
 start_seconds_local_time = time.localtime(start_seconds).tm_sec
 
@@ -107,12 +109,12 @@ for j in range(generations):
     print("\nMutated Solution Fitness Evaluation")
     print(fitness_value)
 
-    # DETERMINE THE BEST IN THE GENERATIONk
+    """ DETERMINE THE BEST IN THE GENERATION """
     index_best = np.argmax(fitness_value)
     best_sol_current_gen = new_population[index_best]
     best_fit_current_gen = max(fitness_value)
 
-    # COMPARE OVERALL BEST
+    """ COMPARE OVERALL BEST """
     if best_fit_current_gen > super_best_fitness: 
         super_best_fitness = best_fit_current_gen
         super_best_sol = best_sol_current_gen
@@ -121,20 +123,32 @@ for j in range(generations):
         # Extract seconds
         seconds = time.time()
         super_best_time_current = time.localtime(seconds).tm_sec
-        super_best_time.append(super_best_time_current)
 
         # Track the time and generation whenever the best is found.
+        super_best_time.append(super_best_time_current)
+
+        # Print the time and generation whenever the best is found.
         print(f"Time & Generation the best was found: {super_best_time_current} seconds at Gen {j}")
 
     print(f"\nBest Solution: {super_best_sol}")
     print(f"Best Fitness: {super_best_fitness}")
 
     all_fitness.append(super_best_fitness)
+    
+# Track what time iteration ended.
+seconds_end = time.time()
+end_seconds_local_time = time.localtime(seconds_end).tm_sec
 
-print(f"\nGenetic Algorithm started local time at {start_seconds_local_time} seconds.")
+# Print the time the iteration started.
+print(f"\nGenetic Algorithm started local time at {start_seconds_local_time} seconds.\n")
+
 # Print all the Time and Generation where the best was found.
 for i in range(len(super_best_time_generation)):
     print(f"Time & Generation the best was found: {super_best_time[i]} seconds at Gen {super_best_time_generation[i]}")
+
+# Print the time the iteration ended.
+print(f"\nGenetic Algorithm ended local time at {end_seconds_local_time} seconds.")
+
 
 print(f"\nAll fitness: {all_fitness}")
 plt.plot(all_fitness)
